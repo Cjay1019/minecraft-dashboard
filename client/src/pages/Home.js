@@ -6,7 +6,7 @@ export default function Home() {
     const [data, setData] = useState({});
 
     useEffect(() => {
-        axios.post("/api/getDetails", {address: "connerleigh.com"}).then(res => {
+        axios.get("/api/getDetails").then(res => {
             console.log(res);
             setData(res.data);
         }).catch(err => console.error(err));
@@ -14,9 +14,13 @@ export default function Home() {
 
     const renderPlayerList = () => {
         if (data.players?.list?.length) {
-            return data.players.list.map(player => <span>{player.name_clean}</span>)
+            return (
+                <ul>
+                    {data.players.list.map(player => <li>{player.name_clean}</li>)}
+                </ul>
+            );
         } else {
-            return <></>;
+            return;
         }
     }
 
