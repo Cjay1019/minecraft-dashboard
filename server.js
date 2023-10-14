@@ -1,11 +1,10 @@
 const express = require("express");
 const path = require("path");
-const PORT = process.env.PORT || 3001;
+const PORT = 3080;
 const app = express();
 
 // Define middleware here
 app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 // Serve up static assets
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "/client/build")));
@@ -14,6 +13,7 @@ if (process.env.NODE_ENV === "production") {
     console.log("env success");
 };
 
+require("./routes/api.js")(app);
 app.get("*", (req, res) => res.sendFile(path.join(__dirname, "/client/build/index.html")));
 
 //Listen to port
