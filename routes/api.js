@@ -10,7 +10,7 @@ module.exports = function (app) {
     });
 
     app.post("/api/restartServer", (req, res) => {
-        const script = `echo "${process.env.SERVER_PW}" | sudo -S "systemctl restart minecraft.service"`;
+        const script = `echo ${process.env.SERVER_PW} | sudo -S systemctl restart minecraft.service`;
         exec(script, (err, stdout, stderr) => {
             if (err) {
                 console.error(err);
