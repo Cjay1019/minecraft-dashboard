@@ -24,12 +24,17 @@ export default function Home() {
         }
     }
 
+    const restartServer = () => {
+        axios.post("/api/restartServer");
+    }
+
     return (
         <Container maxWidth="false">
             <h1>{`Status: ${data.online ? "Online" : "Offline"}`}</h1>
             <h1>{`Version: ${data.version?.name_raw}`}</h1>
             <h1>{`${data.players?.online}/${data.players?.max} Online`}</h1>
             {renderPlayerList()}
+            <button onClick={restartServer}>Restart Server</button>
         </Container>
     );
 }
