@@ -1,9 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Container } from "@mui/material";
+import { Button, Chip, Container, List, ListItem, ListItemText, Paper } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 export default function Home() {
+    const theme = useTheme();
     const [data, setData] = useState({});
+
+    const styles = {
+        paper: {
+            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(2),
+            padding: theme.spacing(2)
+        }
+    };
 
     useEffect(() => {
         axios.get("/api/getDetails").then(res => {
@@ -28,13 +40,30 @@ export default function Home() {
         axios.post("/api/restartServer");
     }
 
+    const onlineChip = <Chip icon={<CheckIcon />} label="Online" variant="outlined" color="success" />;
+    const offlineChip = <Chip icon={<ClearIcon />} label="Offline" variant="outlined" color="error" />;
+
     return (
-        <Container maxWidth="false">
-            <h1>{`Status: ${data.online ? "Online" : "Offline"}`}</h1>
-            <h1>{`Version: ${data.version?.name_raw}`}</h1>
-            <h1>{`${data.players?.online}/${data.players?.max} Online`}</h1>
-            {renderPlayerList()}
-            <button onClick={restartServer}>Restart Server</button>
+        <Container maxWidth="xs">
+            <Paper sx={styles.paper}>
+                <List>
+                    <ListItem>
+                        {data.online ? onlineChip : offlineChip}
+                    </ListItem>
+                </List>
+                <List>
+                    <ListItem>
+                        <ListItemText primary={`Version ${data.version?.name_raw}`}/>
+                    </ListItem>
+                </List>
+                <List>
+                    <ListItem>
+                        <ListItemText primary={`${data.players?.online}/${data.players?.max} Online`}/>
+                    </ListItem>
+                </List>
+                {renderPlayerList()}
+                <Button onClick={restartServer} color="error" variant="outlined">Restart Server</Button>
+            </Paper>
         </Container>
     );
 }

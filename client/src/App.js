@@ -1,10 +1,11 @@
 import Home from "./pages/Home";
-import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
 
 export default function App() {
   const theme = createTheme({
     palette: {
-      type: "dark"
+      mode: "dark"
     }
   });
 
